@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Job Application Form</title>
+
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        /* Attractive gradient background */
+        background: linear-gradient(
+            135deg,
+            #667eea,
+            #764ba2,
+            #f093fb
+        );
+
+        padding: 30px;
+    }
+
+    .form-container {
+        width: 450px;
+        padding: 35px;
+
+        /* Glass effect */
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+
+        box-shadow:
+            0 20px 50px rgba(0, 0, 0, 0.25);
+
+        animation: slideUp 0.7s ease;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 8px;
+        color: #333;
+        font-size: 28px;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #777;
+        font-size: 14px;
+        margin-bottom: 28px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 7px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    input,
+    textarea {
+        width: 100%;
+        padding: 13px 15px;
+
+        border: 2px solid #e1e1e1;
+        border-radius: 10px;
+
+        font-size: 15px;
+        outline: none;
+
+        background: #fafafa;
+
+        transition: 0.3s;
+    }
+
+    input:focus,
+    textarea:focus {
+        border-color: #667eea;
+        background: white;
+
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.12);
+    }
+
+    textarea {
+        height: 120px;
+        resize: none;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: #aaa;
+    }
+
+    .error {
+        color: #e63946;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+
+        border: none;
+        border-radius: 10px;
+
+        background: linear-gradient(
+            135deg,
+            #667eea,
+            #764ba2
+        );
+
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.35);
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 12px 25px rgba(102, 126, 234, 0.45);
+    }
+
+    button:active {
+        transform: translateY(0);
+    }
+
+    #success {
+        text-align: center;
+        color: #20a464;
+        margin-top: 15px;
+        font-weight: 600;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 500px) {
+        body {
+            padding: 15px;
+        }
+
+        .form-container {
+            width: 100%;
+            padding: 25px;
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+    <div class="form-container">
+
+        <h2>Job Application Form</h2>
+
+        <form id="jobForm">
+
+            <!-- Name -->
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Enter your name">
+                <div id="nameError" class="error"></div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="Enter your email">
+                <div id="emailError" class="error"></div>
+            </div>
+
+            <!-- Phone -->
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" placeholder="Enter your phone number">
+                <div id="phoneError" class="error"></div>
+            </div>
+
+            <!-- Message -->
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" placeholder="Enter your message"></textarea>
+                <div id="messageError" class="error"></div>
+            </div>
+
+            <button type="submit">Submit Application</button>
+
+            <div id="success"></div>
+
+        </form>
+    </div>
+
+
+    <script>
+
+        document.getElementById("jobForm").addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            // Get values
+            let name = document.getElementById("name").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let phone = document.getElementById("phone").value.trim();
+            let message = document.getElementById("message").value.trim();
+
+            // Error elements
+            let nameError = document.getElementById("nameError");
+            let emailError = document.getElementById("emailError");
+            let phoneError = document.getElementById("phoneError");
+            let messageError = document.getElementById("messageError");
+            let success = document.getElementById("success");
+
+            // Clear previous messages
+            nameError.innerText = "";
+            emailError.innerText = "";
+            phoneError.innerText = "";
+            messageError.innerText = "";
+            success.innerText = "";
+
+            let valid = true;
+
+            // Name validation
+            if (name === "") {
+                nameError.innerText = "Name is required";
+                valid = false;
+            }
+
+            // Email validation
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (email === "") {
+                emailError.innerText = "Email is required";
+                valid = false;
+            }
+            else if (!emailPattern.test(email)) {
+                emailError.innerText = "Enter a valid email address";
+                valid = false;
+            }
+
+            // Phone validation
+            let phonePattern = /^[0-9]{10}$/;
+
+            if (phone === "") {
+                phoneError.innerText = "Phone number is required";
+                valid = false;
+            }
+            else if (!phonePattern.test(phone)) {
+                phoneError.innerText = "Phone number must contain 10 digits";
+                valid = false;
+            }
+
+            // Message validation
+            if (message === "") {
+                messageError.innerText = "Message is required";
+                valid = false;
+            }
+
+            // If everything is valid
+            if (valid) {
+                success.innerText = "Application submitted successfully!";
+
+                // Clear the form
+                document.getElementById("jobForm").reset();
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
